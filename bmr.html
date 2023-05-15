@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BMR 計算器</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f1f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 400px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 0;
+      color: #333;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    input[type="submit"] {
+      background-color: #ff69b4;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #ff4f99;
+    }
+
+    #result {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h2>BMR 計算器</h2>
+    <form onsubmit="calculateBMR(); return false;">
+      <label>
+        性別：
+        <input type="radio" name="gender" value="male" checked />男性
+        <input type="radio" name="gender" value="female" />女性
+      </label>
+      <label>
+        年齡：<input type="number" id="age" required />
+      </label>
+      <label>
+        身高（公分）：<input type="number" id="height" required />
+      </label>
+      <label>
+        體重（公斤）：<input type="number" id="weight" required />
+      </label>
+      <input type="submit" value="計算BMR" />
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculateBMR() {
+      var gender = document.querySelector('input[name="gender"]:checked').value;
+      var age = parseInt(document.getElementById('age').value);
+      var height = parseInt(document.getElementById('height').value);
+      var weight = parseInt(document.getElementById('weight').value);
+
+      var bmr;
+      if (gender === 'male') {
+        bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else if (gender === 'female') {
+        bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
+
+      var result = document.getElementById('result');
+      result.innerHTML = '您的BMR值為: ' + bmr.toFixed(2);
