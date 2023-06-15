@@ -5,8 +5,52 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
   "use strict";
+// 載入模型
+async function loadModel() {
+  const modelUrl = 'https://tfhub.dev/google/universal-sentence-encoder/4?tfjs-format=compressed';
+  const model = await tf.loadGraphModel(modelUrl);
+  return model;
+}
+
+// 進行自然語言處理
+async function processInput(input, model) {
+  const embeddings = await model.embed([input]);
+  const result = await model.predict(embeddings);
+  const response = await result.array();
+  return response;
+}
+
+// 綁定事件，接收使用者輸入，並進行自然語言處理返回回應
+async function bindEvent(model) {
+  const inputBox = document.getElementById('input-box');
+  const responseBox = document.getElementById('response-box');
+  const btn = document.getElementById('submit-btn');
+  
+  btn.addEventListener('click', async () => {
+    const input = inputBox.value;
+    const response = await processInput(input, model);
+    responseBox.innerText = response;
+  });
+}
+
+// 主函數，載入模型並綁定事件
+async function main() {
+  const model = await loadModel();
+  await bindEvent(model);
+}
+
+// 執行主函數
+main();
+
+
+
 
   /**
    * Preloader
